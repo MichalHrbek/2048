@@ -1,0 +1,103 @@
+[gd_scene format=3 uid="uid://dym5dpe7674p6"]
+
+[ext_resource type="Script" uid="uid://bhg8sxi2ewuwg" path="res://scripts/score_label.gd" id="1_tefeu"]
+[ext_resource type="Script" uid="uid://bqmug3ry6f3jp" path="res://scripts/game_control.gd" id="2_o6xl0"]
+[ext_resource type="Script" uid="uid://4utfk7pgmum6" path="res://scripts/game.gd" id="3_tipki"]
+[ext_resource type="PackedScene" uid="uid://bi0npkx1glnco" path="res://scenes/empty_block.tscn" id="4_85g3d"]
+[ext_resource type="PackedScene" uid="uid://c3qnb5prx3bre" path="res://scenes/block.tscn" id="5_choun"]
+[ext_resource type="Texture2D" uid="uid://c53oc8nvb5bbf" path="res://assets/material-symbols--forward-circle-outline.svg" id="6_ya4ey"]
+
+[node name="Node2D" type="Node2D" unique_id=271896924]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1412528644]
+layer = -1
+
+[node name="Background" type="ColorRect" parent="CanvasLayer" unique_id=261626931]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" unique_id=2052778705]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Score" type="Label" parent="CanvasLayer/VBoxContainer" unique_id=191887385]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 128
+text = "0"
+horizontal_alignment = 1
+script = ExtResource("1_tefeu")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/VBoxContainer" unique_id=1174531924]
+layout_mode = 2
+alignment = 1
+
+[node name="GameControl" type="Control" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=1648727421]
+layout_mode = 2
+focus_mode = 1
+script = ExtResource("2_o6xl0")
+
+[node name="Game" type="Node2D" parent="CanvasLayer/VBoxContainer/HBoxContainer/GameControl" unique_id=815441308]
+unique_name_in_owner = true
+z_index = 2
+script = ExtResource("3_tipki")
+empty_block_scene = ExtResource("4_85g3d")
+block_scene = ExtResource("5_choun")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=14742516]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -55.0
+offset_bottom = 40.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer" unique_id=572961325]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="Button" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1144062865]
+layout_mode = 2
+icon = ExtResource("6_ya4ey")
+flat = true
+icon_alignment = 1
+
+[node name="Width" type="SpinBox" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1229704353]
+layout_mode = 2
+min_value = 2.0
+max_value = 16.0
+value = 4.0
+prefix = "Width:"
+
+[node name="Height" type="SpinBox" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1440599296]
+layout_mode = 2
+min_value = 2.0
+max_value = 16.0
+value = 4.0
+prefix = "Height:"
+
+[node name="GameOverDialog" type="AcceptDialog" parent="." unique_id=940334560]
+oversampling_override = 1.0
+title = "Game over"
+initial_position = 2
+size = Vector2i(175, 100)
+ok_button_text = "Play again"
+dialog_text = "You lost!"
+
+[connection signal="game_lost" from="CanvasLayer/VBoxContainer/HBoxContainer/GameControl/Game" to="GameOverDialog" method="show"]
+[connection signal="score_changed" from="CanvasLayer/VBoxContainer/HBoxContainer/GameControl/Game" to="CanvasLayer/VBoxContainer/Score" method="_on_score_changed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/Button" to="CanvasLayer/VBoxContainer/HBoxContainer/GameControl/Game" method="restart"]
+[connection signal="value_changed" from="CanvasLayer/MarginContainer/VBoxContainer/Width" to="CanvasLayer/VBoxContainer/HBoxContainer/GameControl" method="set_width"]
+[connection signal="value_changed" from="CanvasLayer/MarginContainer/VBoxContainer/Height" to="CanvasLayer/VBoxContainer/HBoxContainer/GameControl" method="set_height"]
+[connection signal="canceled" from="GameOverDialog" to="CanvasLayer/VBoxContainer/HBoxContainer/GameControl/Game" method="restart"]
+[connection signal="confirmed" from="GameOverDialog" to="CanvasLayer/VBoxContainer/HBoxContainer/GameControl/Game" method="restart"]

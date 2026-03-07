@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bi0npkx1glnco"]
+
+[ext_resource type="Texture2D" uid="uid://d4dl7glj6lox4" path="res://assets/block_2048.svg" id="1_8b4hr"]
+[ext_resource type="Script" uid="uid://bm0sbp4erdj14" path="res://scripts/block.gd" id="2_6v2ds"]
+
+[node name="EmptyBlock" type="Sprite2D" unique_id=1393238662]
+self_modulate = Color(0.7750634, 0.7750634, 0.7750634, 1)
+z_index = -2
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_8b4hr")
+script = ExtResource("2_6v2ds")
