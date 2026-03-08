@@ -7,5 +7,4 @@ A 2048 implementation in Godot 4, made in a few hours for fun.
 
 ## TODOs
 - Dynamic scaling
-- Touch input
 - Sound?

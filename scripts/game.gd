@@ -144,6 +144,14 @@ func collapse(dir: Vector2i) -> bool:
 	score += score_delta
 	return moved
 
+func collapse_and_continue(dir: Vector2i):
+	if collapse(dir):
+		await get_tree().create_timer(animation_duration).timeout
+		_spawn_random()
+		
+		if is_lost():
+			game_lost.emit()
+
 func is_lost() -> bool:
 	for x in range(width):
 		for y in range(height):
@@ -158,17 +166,7 @@ func is_lost() -> bool:
 	return true
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	var moved = false
-	if Input.is_action_just_pressed_by_event("ui_right", event): moved = collapse(Vector2i.RIGHT)
-	elif Input.is_action_just_pressed_by_event("ui_left", event): moved = collapse(Vector2i.LEFT)
-	elif Input.is_action_just_pressed_by_event("ui_up", event): moved = collapse(Vector2i.UP)
-	elif Input.is_action_just_pressed_by_event("ui_down", event): moved = collapse(Vector2i.DOWN)
-	else: return
-	
-	if moved:
-		await get_tree().create_timer(animation_duration).timeout
-		_spawn_random()
-		
-		if is_lost():
-			game_lost.emit()
-			print("You lost")
+	if Input.is_action_just_pressed_by_event("ui_right", event): collapse_and_continue(Vector2i.RIGHT)
+	elif Input.is_action_just_pressed_by_event("ui_left", event): collapse_and_continue(Vector2i.LEFT)
+	elif Input.is_action_just_pressed_by_event("ui_up", event): collapse_and_continue(Vector2i.UP)
+	elif Input.is_action_just_pressed_by_event("ui_down", event): collapse_and_continue(Vector2i.DOWN)

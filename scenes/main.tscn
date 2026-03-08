@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://4utfk7pgmum6" path="res://scripts/game.gd" id="3_tipki"]
 [ext_resource type="PackedScene" uid="uid://bi0npkx1glnco" path="res://scenes/empty_block.tscn" id="4_85g3d"]
 [ext_resource type="PackedScene" uid="uid://c3qnb5prx3bre" path="res://scenes/block.tscn" id="5_choun"]
+[ext_resource type="Script" uid="uid://b5rra64x7yw61" path="res://scripts/swipe_monitor.gd" id="6_o6xl0"]
 [ext_resource type="Texture2D" uid="uid://c53oc8nvb5bbf" path="res://assets/material-symbols--forward-circle-outline.svg" id="6_ya4ey"]
 
 [node name="Node2D" type="Node2D" unique_id=271896924]
@@ -43,6 +44,7 @@ alignment = 1
 [node name="GameControl" type="Control" parent="CanvasLayer/VBoxContainer/HBoxContainer" unique_id=1648727421]
 layout_mode = 2
 focus_mode = 1
+mouse_filter = 2
 script = ExtResource("2_o6xl0")
 
 [node name="Game" type="Node2D" parent="CanvasLayer/VBoxContainer/HBoxContainer/GameControl" unique_id=815441308]
@@ -51,6 +53,9 @@ z_index = 2
 script = ExtResource("3_tipki")
 empty_block_scene = ExtResource("4_85g3d")
 block_scene = ExtResource("5_choun")
+
+[node name="SwipeMonitor" type="Node2D" parent="CanvasLayer/VBoxContainer/HBoxContainer/GameControl/Game" unique_id=2044599463]
+script = ExtResource("6_o6xl0")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=14742516]
 anchors_preset = 1
@@ -96,6 +101,7 @@ dialog_text = "You lost!"
 
 [connection signal="game_lost" from="CanvasLayer/VBoxContainer/HBoxContainer/GameControl/Game" to="GameOverDialog" method="show"]
 [connection signal="score_changed" from="CanvasLayer/VBoxContainer/HBoxContainer/GameControl/Game" to="CanvasLayer/VBoxContainer/Score" method="_on_score_changed"]
+[connection signal="directional_swiped" from="CanvasLayer/VBoxContainer/HBoxContainer/GameControl/Game/SwipeMonitor" to="CanvasLayer/VBoxContainer/HBoxContainer/GameControl/Game" method="collapse_and_continue"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/Button" to="CanvasLayer/VBoxContainer/HBoxContainer/GameControl/Game" method="restart"]
 [connection signal="value_changed" from="CanvasLayer/MarginContainer/VBoxContainer/Width" to="CanvasLayer/VBoxContainer/HBoxContainer/GameControl" method="set_width"]
 [connection signal="value_changed" from="CanvasLayer/MarginContainer/VBoxContainer/Height" to="CanvasLayer/VBoxContainer/HBoxContainer/GameControl" method="set_height"]
