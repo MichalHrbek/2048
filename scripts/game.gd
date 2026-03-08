@@ -3,11 +3,12 @@ extends Node2D
 
 @export var width: int = 4
 @export var height: int = 4
-@export var block_size: Vector2 = Vector2(128, 128)
+@export var block_size: Vector2 = Vector2(256, 256)
 @export var spacing: Vector2 = Vector2(16, 16)
 @export var empty_block_scene: PackedScene
 @export var block_scene: PackedScene
 @export var animation_duration: float = 0.1
+@export var _containing_control: Control
 
 signal game_lost
 signal score_changed(new_score: int)
@@ -64,6 +65,13 @@ func _spawn_random() -> bool:
 func restart():
 	_background.self_modulate = Palette2048.get_color(-1)
 	
+	# Auto scaling
+	var container_size = _containing_control.size
+	var s = container_size/get_bbox_size()
+	var k = min(s.x, s.y)
+	scale = Vector2(k, k)
+	position = -get_bbox_size()*0.5*scale # Centering
+	
 	for i in _blocks.values():
 		i.queue_free()
 	for i in _empty_blocks.values():
@@ -87,6 +95,7 @@ func restart():
 	game_started.emit()
 
 func _ready() -> void:
+	await _containing_control.resized
 	restart()
 
 func _iter(dir: Vector2i, main_axis_index: int, side_axis_index: int) -> Vector2i:

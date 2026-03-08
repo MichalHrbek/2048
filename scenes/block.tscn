@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://bm0sbp4erdj14" path="res://scripts/block.gd" id="2_bbdgp"]
 
 [node name="Block" type="Sprite2D" unique_id=1546788290 node_paths=PackedStringArray("_label")]
-scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_oqlom")
 script = ExtResource("2_bbdgp")
 _label = NodePath("Label")

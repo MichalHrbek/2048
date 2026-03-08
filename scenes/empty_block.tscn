@@ -6,6 +6,5 @@
 [node name="EmptyBlock" type="Sprite2D" unique_id=1393238662]
 self_modulate = Color(0.7750634, 0.7750634, 0.7750634, 1)
 z_index = -2
-scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_8b4hr")
 script = ExtResource("2_6v2ds")
